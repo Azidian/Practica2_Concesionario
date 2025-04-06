@@ -2,7 +2,7 @@
 
 vehicle(lamborghini, urus, suv, 218000 , 2018).  
 vehicle(bmw, competition, suv, 122000, 2023).
-vehicle(mercedes-Benz, suv, sedan,  118000 , 2024).
+vehicle(mercedesbenz, suv, sedan,  118000 , 2024).
 vehicle(porsche, 911, sport, 230000, 2024).
 vehicle(bugatti, chiron, sport, 5000000, 2024).
 vehicle(cLaren, senna, sport, 1000000, 2020 ).
