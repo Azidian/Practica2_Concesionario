@@ -2,10 +2,10 @@
 
 vehicle(lamborghini, urus, suv, 218000 , 2018).  
 vehicle(bmw, competition, suv, 122000, 2023).
-vehicle(mercedesbenz, suv, sedan,  118000 , 2024).
+vehicle(mercedesbenz, glc, sedan, 118000, 2024).
 vehicle(porsche, 911, sport, 230000, 2024).
 vehicle(bugatti, chiron, sport, 5000000, 2024).
-vehicle(cLaren, senna, sport, 1000000, 2020 ).
+vehicle(claren, senna, sport, 1000000, 2020 ).
 vehicle(chevrolet, blazer, suv, 38000, 2024).
 vehicle(mazda, cx-90, suv, 40000, 2024).
 vehicle(toyota, corolla, sedan, 25000, 2023).
@@ -23,3 +23,65 @@ vehicle(nissan, frontier, pickup, 32000, 2022).
 meet_budget(Reference, BudgetMax) :-
     vehicle(_, Reference, _, Price, _),
     Price =< BudgetMax.
+
+% Filtrar vehículos por precio 
+filter_by_price(Vehicles, Limit, FilteredVehicles) :-
+    sort_by_price(Vehicles, SortedVehicles),
+    select_until_limit(SortedVehicles, Limit, 0, FilteredVehicles).
+
+% Ordenar vehículos por precio 
+sort_by_price(Vehicles, SortedVehicles) :-
+    predsort(compare_by_price, Vehicles, SortedVehicles).
+
+compare_by_price(Order, vehicle(_, _, _, Price1, _), vehicle(_, _, _, Price2, _)) :-
+    (Price1 < Price2 -> Order = (<) ; Order = (>)).
+
+% Lista de vehículos por marca
+list_by_make(Make, References) :-
+    findall(Ref, vehicle(Make, Ref, _, _, _), References).
+
+% Generación de informe
+generate_report(Brand, Type, Budget, Vehicleslist) :-
+    findall(vehicle(Brand, Ref, Type, Price, Year),
+            (vehicle(Brand, Ref, Type, Price, Year), Price =< Budget),
+            Vehicleslist),
+    total_value(Vehicleslist, Total),
+    Total =< 1000000.
+
+% Sumar precios de una lista de vehículos
+total_value([], 0).
+total_value([vehicle(_, _, _, Price, _) | Tail], Total) :-
+    total_value(Tail, SubTotal),
+    Total is Price + SubTotal.
+
+
+% Casos de prueba
+% 1. Listar todos los SUV Toyota por debajo de $30,000
+test_toyota_suv(Result) :-
+    findall(Ref, (vehicle(toyota, Ref, suv, Price, _), Price < 30000), Result).
+
+% 2. Vehículos Ford agrupados por tipo y año
+test_ford_by_type_year(Result) :-
+    bagof((Type, Year, Ref), vehicle(ford, Ref, Type, _, Year), Result).
+
+% 3. Valor total de Sedanes sin exceder $500,000
+test_sedan_value(Vehicles, TotalValue) :-
+    findall(vehicle(Make, Ref, sedan, Price, Year), 
+            vehicle(Make, Ref, sedan, Price, Year), 
+            AllSedans),
+    filter_by_price(AllSedans, 500000, Vehicles),
+    total_value(Vehicles, TotalValue).
+
+% 4. Mostrar todos los vehículos que cumplen con un presupuesto individual
+vehicles_within_budget(Budget, Vehicles) :-
+    findall(vehicle(Make, Ref, Type, Price, Year),
+            (vehicle(Make, Ref, Type, Price, Year), Price =< Budget),
+            Vehicles).
+
+% 5. Generar reporte para BMW tipo SUV con presupuesto de 130000
+test_generate_report_bmw(Result) :-
+    generate_report(bmw, suv, 130000, Result).
+
+% 6. Listar referencias por marca
+test_list_by_make(Result) :-
+    list_by_make(honda, Result).
