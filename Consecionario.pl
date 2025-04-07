@@ -20,3 +20,6 @@ vehicle(chevrolet, silverado, pickup, 45000, 2021).
 vehicle(nissan, frontier, pickup, 32000, 2022).
 
 % Filtro por tipo y presupuesto
+meet_budget(Reference, BudgetMax) :-
+    vehicle(_, Reference, _, Price, _),
+    Price =< BudgetMax.
