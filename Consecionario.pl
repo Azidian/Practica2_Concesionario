@@ -5,7 +5,7 @@ vehicle(bmw, competition, suv, 122000, 2023).
 vehicle(mercedesbenz, glc, sedan, 118000, 2024).
 vehicle(porsche, 911, sport, 230000, 2024).
 vehicle(bugatti, chiron, sport, 5000000, 2024).
-vehicle(claren, senna, sport, 1000000, 2020 ).
+vehicle(mclaren, senna, sport, 1000000, 2020 ).
 vehicle(chevrolet, blazer, suv, 38000, 2024).
 vehicle(mazda, cx-90, suv, 40000, 2024).
 vehicle(toyota, corolla, sedan, 25000, 2023).
@@ -28,6 +28,16 @@ meet_budget(Reference, BudgetMax) :-
 filter_by_price(Vehicles, Limit, FilteredVehicles) :-
     sort_by_price(Vehicles, SortedVehicles),
     select_until_limit(SortedVehicles, Limit, 0, FilteredVehicles).
+
+% Función auxiliar para seleccionar vehículos hasta el límite
+    
+select_until_limit([], _, _, []).
+select_until_limit([vehicle(Make, Ref, Type, Price, Year) | Tail], Limit, Accumulated, [vehicle(Make, Ref, Type, Price, Year) | FilteredTail]) :-
+NewAccumulated is Accumulated + Price,
+NewAccumulated =< Limit,
+select_until_limit(Tail, Limit, NewAccumulated, FilteredTail).
+select_until_limit(_, Limit, Accumulated, []) :-
+Accumulated > Limit.
 
 % Ordenar vehículos por precio 
 sort_by_price(Vehicles, SortedVehicles) :-
@@ -53,7 +63,6 @@ total_value([], 0).
 total_value([vehicle(_, _, _, Price, _) | Tail], Total) :-
     total_value(Tail, SubTotal),
     Total is Price + SubTotal.
-
 
 % Casos de prueba
 % 1. Listar todos los SUV Toyota por debajo de $30,000
