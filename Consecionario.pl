@@ -1,6 +1,6 @@
 % vehicle(Make, Reference, Type, Price, Year).
 
-vehicle(lamborghini, urus, suv, 218000 , 2018).  
+vehicle(lamborghini, urus, suv, 218000 , 2018).   
 vehicle(bmw, competition, suv, 122000, 2023).
 vehicle(mercedesbenz, glc, sedan, 118000, 2024).
 vehicle(porsche, 911, sport, 230000, 2024).
@@ -29,15 +29,14 @@ filter_by_price(Vehicles, Limit, FilteredVehicles) :-
     sort_by_price(Vehicles, SortedVehicles),
     select_until_limit(SortedVehicles, Limit, 0, FilteredVehicles).
 
-% Función auxiliar para seleccionar vehículos hasta el límite
-    
+% Función auxiliar para seleccionar vehículos hasta el límite   
 select_until_limit([], _, _, []).
 select_until_limit([vehicle(Make, Ref, Type, Price, Year) | Tail], Limit, Accumulated, [vehicle(Make, Ref, Type, Price, Year) | FilteredTail]) :-
-NewAccumulated is Accumulated + Price,
-NewAccumulated =< Limit,
-select_until_limit(Tail, Limit, NewAccumulated, FilteredTail).
+    NewAccumulated is Accumulated + Price,
+    NewAccumulated =< Limit,
+    select_until_limit(Tail, Limit, NewAccumulated, FilteredTail).
 select_until_limit(_, Limit, Accumulated, []) :-
-Accumulated > Limit.
+    Accumulated > Limit.
 
 % Ordenar vehículos por precio 
 sort_by_price(Vehicles, SortedVehicles) :-
@@ -51,12 +50,18 @@ list_by_make(Make, References) :-
     findall(Ref, vehicle(Make, Ref, _, _, _), References).
 
 % Generación de informe
-generate_report(Brand, Type, Budget, Vehicleslist) :-
+generate_report(Brand, Type, Budget, FinalList) :-
+    % Filtramos por marca, tipo y presupuesto individual
     findall(vehicle(Brand, Ref, Type, Price, Year),
             (vehicle(Brand, Ref, Type, Price, Year), Price =< Budget),
-            Vehicleslist),
-    total_value(Vehicleslist, Total),
-    Total =< 1000000.
+            RawList),
+    total_value(RawList, Total),
+    (
+        Total =< 1000000 ->
+            FinalList = RawList
+        ;
+            filter_by_price(RawList, 1000000, FinalList) % Filtramos por presupuesto total si excede 1,000,000
+    ).
 
 % Sumar precios de una lista de vehículos
 total_value([], 0).

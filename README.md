@@ -28,7 +28,7 @@ El proyecto fue desarrollado utilizando Visual Studio Code con la extensión par
   - Por marca.
   - Por presupuesto individual.
   - Por límite total de presupuesto acumulado.
-- **Ordenamiento por precio** (ascendente).
+- **Ordenamiento por precio** (De manera ascendente).
 - **Generación de reportes estructurados**:
   - Con validación de presupuesto total máximo ($1,000,000).
   - Reportes por marca y tipo.
@@ -39,6 +39,7 @@ El proyecto fue desarrollado utilizando Visual Studio Code con la extensión par
 3. Abrir el proyecto en Visual Studio Code.
 4. Instalar la extensión de Visual Studio Code para Prolog: VSC-Prolog
 5. Carga el archivo .pl en el intérprete de SWI-Prolog.
-6. Asegurarse de tener la ruta correcta en el Prolog: Executable Path
+6. Asegurarse de tener la ruta correcta en el Prolog: Executable Path y en su computadora. 
+7. Ejecutar el archivo .pl en el intérprete de SWI-Prolog.
 
 ## Gracias por visitar este proyecto.
