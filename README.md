@@ -12,6 +12,9 @@ El sistema permite almacenar, consultar y generar reportes del catálogo de veh�
 ## Video sustentación del programa
 https://youtu.be/dbJzQkdH7NM
 
+## Capturas sustentación del programa 
+[capturaspantalla_sustentacion_practica2.docx](https://github.com/user-attachments/files/19761526/capturaspantalla_sustentacion_practica2.docx)
+
 ## Entorno de desarrollo usado para el desarrollo del proyecto
 El proyecto fue desarrollado utilizando Visual Studio Code con la extensión para Prolog.
 
@@ -43,4 +46,3 @@ El proyecto fue desarrollado utilizando Visual Studio Code con la extensión par
 7. Ejecutar el archivo .pl en el intérprete de SWI-Prolog.
 
 ## Gracias por visitar este proyecto.
-[capturas_sustentacion_practica2.docx](https://github.com/user-attachments/files/19746792/capturas_sustentacion_practica2.docx)
