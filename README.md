@@ -43,3 +43,4 @@ El proyecto fue desarrollado utilizando Visual Studio Code con la extensión par
 7. Ejecutar el archivo .pl en el intérprete de SWI-Prolog.
 
 ## Gracias por visitar este proyecto.
+[capturas_sustentacion_practica2.docx](https://github.com/user-attachments/files/19746792/capturas_sustentacion_practica2.docx)
