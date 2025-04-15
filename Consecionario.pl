@@ -20,42 +20,43 @@ vehicle(chevrolet, silverado, pickup, 45000, 2021).
 vehicle(nissan, frontier, pickup, 32000, 2022).
 
 % Filtro por tipo y presupuesto
-meet_budget(Reference, BudgetMax) :-
-    vehicle(_, Reference, _, Price, _),
-    Price =< BudgetMax.
+meet_budget(Reference, BudgetMax) :- 
+    vehicle(_, Reference, _, Price, _), % Obtener el precio del vehículo
+    Price =< BudgetMax. % Verificar si el precio es menor o igual al presupuesto máximo
 
 % Filtrar vehículos por precio 
-filter_by_price(Vehicles, Limit, FilteredVehicles) :-
-    sort_by_price(Vehicles, SortedVehicles),
-    select_until_limit(SortedVehicles, Limit, 0, FilteredVehicles).
+filter_by_price(Vehicles, Limit, FilteredVehicles) :- 
+    sort_by_price(Vehicles, SortedVehicles), % Ordenar vehículos por precio
+    select_until_limit(SortedVehicles, Limit, 0, FilteredVehicles). % Seleccionar vehículos hasta el límite
 
 % Función auxiliar para seleccionar vehículos hasta el límite   
-select_until_limit([], _, _, []).
+select_until_limit([], _, _, []). % Caso base: lista vacía
 select_until_limit([vehicle(Make, Ref, Type, Price, Year) | Tail], Limit, Accumulated, [vehicle(Make, Ref, Type, Price, Year) | FilteredTail]) :-
-    NewAccumulated is Accumulated + Price,
-    NewAccumulated =< Limit,
-    select_until_limit(Tail, Limit, NewAccumulated, FilteredTail).
+    NewAccumulated is Accumulated + Price, % Sumar el precio del vehículo actual
+    NewAccumulated =< Limit, % Verificar si no se excede el límite
+    select_until_limit(Tail, Limit, NewAccumulated, FilteredTail). % Continuar seleccionando vehículos
 select_until_limit(_, Limit, Accumulated, []) :-
-    Accumulated > Limit.
+    Accumulated > Limit. 
 
 % Ordenar vehículos por precio 
-sort_by_price(Vehicles, SortedVehicles) :-
-    predsort(compare_by_price, Vehicles, SortedVehicles).
+sort_by_price(Vehicles, SortedVehicles) :- %Vehículos y vehículos ordenados
+    predsort(compare_by_price, Vehicles, SortedVehicles). % Ordenar vehículos por precio
 
-compare_by_price(Order, vehicle(_, _, _, Price1, _), vehicle(_, _, _, Price2, _)) :-
-    (Price1 < Price2 -> Order = (<) ; Order = (>)).
+compare_by_price(Order, vehicle(_, _, _, Price1, _), vehicle(_, _, _, Price2, _)) :- % Comparar precios de vehículos
+    % Order es el predicado que define la relación de orden entre los precios
+    (Price1 < Price2 -> Order = (<) ; Order = (>)). % Definir la relación de orden
 
 % Lista de vehículos por marca
-list_by_make(Make, References) :-
-    findall(Ref, vehicle(Make, Ref, _, _, _), References).
+list_by_make(Make, References) :- % Marca y referencias
+    findall(Ref, vehicle(Make, Ref, _, _, _), References). % Obtener referencias de vehículos por marca
 
 % Generación de informe
-generate_report(Brand, Type, Budget, FinalList) :-
+generate_report(Brand, Type, Budget, FinalList) :- % Marca, tipo y presupuesto
     % Filtramos por marca, tipo y presupuesto individual
-    findall(vehicle(Brand, Ref, Type, Price, Year),
-            (vehicle(Brand, Ref, Type, Price, Year), Price =< Budget),
+    findall(vehicle(Brand, Ref, Type, Price, Year), % Obtener vehículos por marca y tipo
+            (vehicle(Brand, Ref, Type, Price, Year), Price =< Budget), % Filtrar por presupuesto
             RawList),
-    total_value(RawList, Total),
+    total_value(RawList, Total), 
     (
         Total =< 1000000 ->
             FinalList = RawList
@@ -64,10 +65,10 @@ generate_report(Brand, Type, Budget, FinalList) :-
     ).
 
 % Sumar precios de una lista de vehículos
-total_value([], 0).
-total_value([vehicle(_, _, _, Price, _) | Tail], Total) :-
+total_value([], 0). % Caso base: lista vacía
+total_value([vehicle(_, _, _, Price, _) | Tail], Total) :- 
     total_value(Tail, SubTotal),
-    Total is Price + SubTotal.
+    Total is Price + SubTotal. % Sumar precios de vehículos
 
 % Casos de prueba
 % 1. Listar todos los SUV Toyota por debajo de $30,000

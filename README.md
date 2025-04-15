@@ -10,7 +10,7 @@ El sistema permite almacenar, consultar y generar reportes del catálogo de veh�
 - Wendy Vanessa Atehortua Chaverra
 
 ## Video sustentación del programa
-
+https://youtu.be/dbJzQkdH7NM
 
 ## Entorno de desarrollo usado para el desarrollo del proyecto
 El proyecto fue desarrollado utilizando Visual Studio Code con la extensión para Prolog.
